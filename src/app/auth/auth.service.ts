@@ -160,10 +160,7 @@ export class AuthService {
       case 'EMAIL_EXISTS':
         errorMessage = 'This email exists already';
         break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'The email or password is incorrect';
-        break;
-      case 'INVALID_PASSWORD':
+      case 'INVALID_LOGIN_CREDENTIALS':
         errorMessage = 'The email or password is incorrect';
         break;
     }
