@@ -45,10 +45,20 @@ export class AuthEffects {
                 expirationDate: expirationDate,
               });
             }),
-            catchError((error) => {
-              // Handle the error here
-              console.error('Error in authentication:', error);
-              return of(); // You might want to return an error action here
+            catchError((errorRes) => {
+              let errorMessage = 'An unknown error occurred!';
+              if (!errorRes.error || !errorRes.error.error) {
+                return of(new AuthActions.LoginFail(errorMessage));
+              }
+              switch (errorRes.error.error.message) {
+                case 'EMAIL_EXISTS':
+                  errorMessage = 'This email exists already';
+                  break;
+                case 'INVALID_LOGIN_CREDENTIALS':
+                  errorMessage = 'The email or password is incorrect';
+                  break;
+              }
+              return of(new AuthActions.LoginFail(errorMessage)); // You might want to return an error action here
             })
           );
       })
